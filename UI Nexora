@@ -8,7 +8,7 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
 
--- Minimizer & Toggle GUI (PC & Mobile) (tích hợp với redzui.lua)
+-- Minimizer & Toggle GUI (PC & Mobile) (Tích hợp với redzui.lua)
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
@@ -18,7 +18,7 @@ local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:FindFirstChild("PlayerGui")
 if not PlayerGui then return end
 
--- Tạo GUI ngoài màn hình (chắc chắn luôn hiển thị)
+-- Tạo GUI ngoài màn hình (đảm bảo luôn hiển thị)
 local ToggleScreenGui = Instance.new("ScreenGui")
 ToggleScreenGui.Parent = PlayerGui
 ToggleScreenGui.ResetOnSpawn = false
@@ -47,9 +47,11 @@ if not MainFrame then
     MainFrame.Size = UDim2.new(0, 400, 0, 300)
     MainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
     MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    MainFrame.BorderSizePixel = 2
+    MainFrame.Visible = true
 end
 
--- Đảm bảo GUI hiển thị ban đầu
+-- Đảm bảo GUI hiển thị ngay khi chạy
 MainFrame.Visible = true
 
 local MinimizeButton = Instance.new("TextButton")
@@ -73,29 +75,18 @@ local function ToggleGUI()
     if MainFrame then
         isHidden = not isHidden
         if isHidden then
-            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, -1, 0), BackgroundTransparency = 1}):Play()
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(0.5, -200, -1, 0)}):Play()
             wait(0.3)
             MainFrame.Visible = false
         else
             MainFrame.Visible = true
-            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, 0.2, 0), BackgroundTransparency = 0}):Play()
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(0.5, -200, 0.5, -150)}):Play()
         end
     end
 end
 
 MinimizeButton.MouseButton1Click:Connect(ToggleMinimize)
 ToggleGUIButton.MouseButton1Click:Connect(ToggleGUI)
-
--- Chỉ hỗ trợ phím tắt trên PC
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if not gameProcessed and input.UserInputType == Enum.UserInputType.Keyboard then
-        if input.KeyCode == Enum.KeyCode.RightControl then -- PC
-            ToggleGUI()
-        end
-    end
-end)
-
--- Hỗ trợ chạm trên Mobile
 ToggleGUIButton.TouchTap:Connect(ToggleGUI)
 MinimizeButton.TouchTap:Connect(ToggleMinimize)
 
