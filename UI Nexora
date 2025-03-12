@@ -13,6 +13,9 @@ local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
 
+local ScreenGui = CoreGui:FindFirstChild("redz Library V5")
+if not ScreenGui then return end
+
 local MainFrame = ScreenGui:FindFirstChild("Hub")
 if not MainFrame then return end
 
