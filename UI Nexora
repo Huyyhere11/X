@@ -10,8 +10,8 @@ local PlayerMouse = Player:GetMouse()
 
 local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
 	MinimizerIcon = "rbxassetid://91324246097383",
-    MinimizeKey = isMobile and nil or Enum.KeyCode.RightControl,
-    MinimizerIconSize = UDim2.fromOffset(40, 40)
+	MinimizeKey = Enum.KeyCode.RightControl,
+	MinimizerIconSize = UDim2.fromOffset(40, 40)
 
 
 local redzlib = {
