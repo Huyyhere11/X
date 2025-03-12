@@ -26,9 +26,10 @@ ToggleScreenGui.ResetOnSpawn = false
 -- Tạo nút ẩn/hiện GUI bằng logo
 local ToggleGUIButton = Instance.new("ImageButton")
 ToggleGUIButton.Size = UDim2.new(0, 50, 0, 50)
-ToggleGUIButton.Position = UDim2.new(0, 25, 0.2, -25)
+ToggleGUIButton.Position = UDim2.new(0, 25, 0.1, -25)
 ToggleGUIButton.Image = "rbxassetid://91324246097383"
 ToggleGUIButton.BackgroundTransparency = 1
+ToggleGUIButton.Active = true
 ToggleGUIButton.Draggable = true
 ToggleGUIButton.Parent = ToggleScreenGui
 
@@ -68,14 +69,14 @@ end
 local function ToggleGUI()
     if MainFrame then
         isHidden = not isHidden
-        local goalTransparency = isHidden and 1 or 0
-        for _, obj in ipairs(MainFrame:GetDescendants()) do
-            if obj:IsA("GuiObject") then
-                TweenService:Create(obj, TweenInfo.new(0.3), {BackgroundTransparency = goalTransparency, TextTransparency = goalTransparency}):Play()
-            end
+        if isHidden then
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, -1, 0)}):Play()
+            wait(0.3)
+            MainFrame.Visible = false
+        else
+            MainFrame.Visible = true
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, 0.2, 0)}):Play()
         end
-        wait(0.3)
-        MainFrame.Visible = not isHidden
     end
 end
 
