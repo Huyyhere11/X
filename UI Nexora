@@ -20,7 +20,7 @@ if not PlayerGui then return end
 
 -- Tạo GUI ngoài màn hình (chắc chắn luôn hiển thị)
 local ToggleScreenGui = Instance.new("ScreenGui")
-ToggleScreenGui.Parent = CoreGui
+ToggleScreenGui.Parent = PlayerGui
 ToggleScreenGui.ResetOnSpawn = false
 
 -- Tạo nút ẩn/hiện GUI bằng logo
@@ -29,14 +29,24 @@ ToggleGUIButton.Size = UDim2.new(0, 60, 0, 60)
 ToggleGUIButton.Position = UDim2.new(0, 20, 0.5, -30)
 ToggleGUIButton.Image = "rbxassetid://91324246097383"
 ToggleGUIButton.BackgroundTransparency = 1
+ToggleGUIButton.Draggable = true
 ToggleGUIButton.Parent = ToggleScreenGui
 
 -- Chờ GUI chính xuất hiện
-local ScreenGui = nil
-repeat wait(1) ScreenGui = CoreGui:FindFirstChild("redz Library V5") until ScreenGui
+local ScreenGui = PlayerGui:FindFirstChild("redz Library V5")
+while not ScreenGui do
+    wait(1)
+    ScreenGui = PlayerGui:FindFirstChild("redz Library V5")
+end
 
-local MainFrame = nil
-repeat wait(1) MainFrame = ScreenGui:FindFirstChild("Hub") until MainFrame
+local MainFrame = ScreenGui:FindFirstChild("Hub")
+while not MainFrame do
+    wait(1)
+    MainFrame = ScreenGui:FindFirstChild("Hub")
+end
+
+-- Đảm bảo GUI hiển thị ban đầu
+MainFrame.Visible = true
 
 local MinimizeButton = Instance.new("TextButton")
 MinimizeButton.Size = UDim2.new(0, 50, 0, 20)
