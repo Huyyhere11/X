@@ -62,10 +62,7 @@ local redzlib = {
 	Options = {},
 	Flags = {},
 	Tabs = {},
-	Icons = loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/RedzLibV5/refs/heads/main/Icons.lua"))(),
-	MinimizerIcon = "rbxassetid://91324246097383",
-	MinimizeKey = isMobile and nil or Enum.KeyCode.RightControl,
-	MinimizerIconSize = UDim2.fromOffset(40, 40)
+	Icons = loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/RedzLibV5/refs/heads/main/Icons.lua"))()
 }
 
 local ViewportSize = workspace.CurrentCamera.ViewportSize
