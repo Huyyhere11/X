@@ -8,7 +8,7 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
 
--- Minimizer cho giao diện (tích hợp với redzui.lua)
+-- Minimizer & Toggle GUI (PC & Mobile) (tích hợp với redzui.lua)
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
@@ -25,7 +25,14 @@ MinimizeButton.Position = UDim2.new(1, -55, 0, 5)
 MinimizeButton.Text = "_"
 MinimizeButton.Parent = MainFrame
 
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Size = UDim2.new(0, 50, 0, 20)
+ToggleButton.Position = UDim2.new(1, -110, 0, 5)
+ToggleButton.Text = "Hide"
+ToggleButton.Parent = MainFrame
+
 local isMinimized = false
+local isHidden = false
 local minimizedSize = UDim2.new(0, MainFrame.Size.X.Offset, 0, 30)
 local fullSize = MainFrame.Size
 
@@ -38,14 +45,29 @@ local function ToggleMinimize()
     isMinimized = not isMinimized
 end
 
-MinimizeButton.MouseButton1Click:Connect(ToggleMinimize)
+local function ToggleGUI()
+    isHidden = not isHidden
+    MainFrame.Visible = not isHidden
+    ToggleButton.Text = isHidden and "Show" or "Hide"
+end
 
--- Cho phép sử dụng phím để thu nhỏ/phóng to
+MinimizeButton.MouseButton1Click:Connect(ToggleMinimize)
+ToggleButton.MouseButton1Click:Connect(ToggleGUI)
+
+-- Hỗ trợ phím tắt trên PC & Mobile
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if not gameProcessed and input.KeyCode == Enum.KeyCode.M then
-        ToggleMinimize()
+    if not gameProcessed then
+        if input.KeyCode == Enum.KeyCode.RightControl then -- PC
+            ToggleGUI()
+        elseif input.KeyCode == Enum.KeyCode.M then -- PC
+            ToggleMinimize()
+        end
     end
 end)
+
+-- Hỗ trợ chạm trên Mobile
+ToggleButton.TouchTap:Connect(ToggleGUI)
+MinimizeButton.TouchTap:Connect(ToggleMinimize)
 
 
 local redzlib = {
