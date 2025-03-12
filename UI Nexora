@@ -34,17 +34,20 @@ ToggleGUIButton.Draggable = true
 ToggleGUIButton.Parent = ToggleScreenGui
 
 -- Chờ GUI chính xuất hiện
-local ScreenGui
-repeat
-    ScreenGui = PlayerGui:FindFirstChild("redz Library V5")
-    wait(1)
-until ScreenGui
+local ScreenGui = PlayerGui:FindFirstChild("redz Library V5")
+if not ScreenGui then
+    ScreenGui = Instance.new("ScreenGui", PlayerGui)
+    ScreenGui.Name = "redz Library V5"
+end
 
-local MainFrame
-repeat
-    MainFrame = ScreenGui:FindFirstChild("Hub")
-    wait(1)
-until MainFrame
+local MainFrame = ScreenGui:FindFirstChild("Hub")
+if not MainFrame then
+    MainFrame = Instance.new("Frame", ScreenGui)
+    MainFrame.Name = "Hub"
+    MainFrame.Size = UDim2.new(0, 400, 0, 300)
+    MainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+end
 
 -- Đảm bảo GUI hiển thị ban đầu
 MainFrame.Visible = true
@@ -70,12 +73,12 @@ local function ToggleGUI()
     if MainFrame then
         isHidden = not isHidden
         if isHidden then
-            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, -1, 0)}):Play()
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, -1, 0), BackgroundTransparency = 1}):Play()
             wait(0.3)
             MainFrame.Visible = false
         else
             MainFrame.Visible = true
-            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, 0.2, 0)}):Play()
+            TweenService:Create(MainFrame, TweenInfo.new(0.3), {Position = UDim2.new(MainFrame.Position.X.Scale, 0, 0.2, 0), BackgroundTransparency = 0}):Play()
         end
     end
 end
