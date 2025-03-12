@@ -19,17 +19,18 @@ if not ScreenGui then return end
 local MainFrame = ScreenGui:FindFirstChild("Hub")
 if not MainFrame then return end
 
+-- Nút ẩn/hiện GUI bằng logo
+local ToggleGUIButton = Instance.new("ImageButton")
+ToggleGUIButton.Size = UDim2.new(0, 50, 0, 50)
+ToggleGUIButton.Position = UDim2.new(0, 10, 0, 10)
+ToggleGUIButton.Image = "rbxassetid://91324246097383"
+ToggleGUIButton.Parent = ScreenGui
+
 local MinimizeButton = Instance.new("TextButton")
 MinimizeButton.Size = UDim2.new(0, 50, 0, 20)
 MinimizeButton.Position = UDim2.new(1, -55, 0, 5)
 MinimizeButton.Text = "_"
 MinimizeButton.Parent = MainFrame
-
-local ToggleButton = Instance.new("TextButton")
-ToggleButton.Size = UDim2.new(0, 50, 0, 20)
-ToggleButton.Position = UDim2.new(1, -110, 0, 5)
-ToggleButton.Text = "Hide"
-ToggleButton.Parent = MainFrame
 
 local isMinimized = false
 local isHidden = false
@@ -48,27 +49,23 @@ end
 local function ToggleGUI()
     isHidden = not isHidden
     MainFrame.Visible = not isHidden
-    ToggleButton.Text = isHidden and "Show" or "Hide"
 end
 
 MinimizeButton.MouseButton1Click:Connect(ToggleMinimize)
-ToggleButton.MouseButton1Click:Connect(ToggleGUI)
+ToggleGUIButton.MouseButton1Click:Connect(ToggleGUI)
 
 -- Hỗ trợ phím tắt trên PC & Mobile
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if not gameProcessed then
         if input.KeyCode == Enum.KeyCode.RightControl then -- PC
             ToggleGUI()
-        elseif input.KeyCode == Enum.KeyCode.M then -- PC
-            ToggleMinimize()
         end
     end
 end)
 
 -- Hỗ trợ chạm trên Mobile
-ToggleButton.TouchTap:Connect(ToggleGUI)
+ToggleGUIButton.TouchTap:Connect(ToggleGUI)
 MinimizeButton.TouchTap:Connect(ToggleMinimize)
-
 
 local redzlib = {
 	Themes = {
