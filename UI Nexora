@@ -7,24 +7,34 @@ local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
-
 -- Minimizer & Toggle GUI (PC & Mobile) (tích hợp với redzui.lua)
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:FindFirstChild("PlayerGui")
+if not PlayerGui then return end
+
+-- Tạo GUI ngoài màn hình
+local ToggleScreenGui = Instance.new("ScreenGui")
+ToggleScreenGui.Parent = PlayerGui
+ToggleScreenGui.ResetOnSpawn = false
+
+-- Tạo nút ẩn/hiện GUI bằng logo
+local ToggleGUIButton = Instance.new("ImageButton")
+ToggleGUIButton.Size = UDim2.new(0, 60, 0, 60)
+ToggleGUIButton.Position = UDim2.new(0, 20, 0.5, -30)
+ToggleGUIButton.Image = "rbxassetid://91324246097383"
+ToggleGUIButton.BackgroundTransparency = 1
+ToggleGUIButton.Parent = ToggleScreenGui
 
 local ScreenGui = CoreGui:FindFirstChild("redz Library V5")
 if not ScreenGui then return end
 
 local MainFrame = ScreenGui:FindFirstChild("Hub")
 if not MainFrame then return end
-
--- Nút ẩn/hiện GUI bằng logo
-local ToggleGUIButton = Instance.new("ImageButton")
-ToggleGUIButton.Size = UDim2.new(0, 50, 0, 50)
-ToggleGUIButton.Position = UDim2.new(0, 10, 0, 10)
-ToggleGUIButton.Image = "rbxassetid://91324246097383"
-ToggleGUIButton.Parent = ScreenGui
 
 local MinimizeButton = Instance.new("TextButton")
 MinimizeButton.Size = UDim2.new(0, 50, 0, 20)
@@ -66,6 +76,7 @@ end)
 -- Hỗ trợ chạm trên Mobile
 ToggleGUIButton.TouchTap:Connect(ToggleGUI)
 MinimizeButton.TouchTap:Connect(ToggleMinimize)
+
 
 local redzlib = {
 	Themes = {
