@@ -8,10 +8,41 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerMouse = Player:GetMouse()
 
-local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
-	MinimizerIcon = "rbxassetid://91324246097383",
-	MinimizeKey = Enum.KeyCode.RightControl,
-	MinimizerIconSize = UDim2.fromOffset(40, 40)
+-- Minimizer cho giao diện (tích hợp với redzui.lua)
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local CoreGui = game:GetService("CoreGui")
+
+local MainFrame = ScreenGui:FindFirstChild("Hub")
+if not MainFrame then return end
+
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Size = UDim2.new(0, 50, 0, 20)
+MinimizeButton.Position = UDim2.new(1, -55, 0, 5)
+MinimizeButton.Text = "_"
+MinimizeButton.Parent = MainFrame
+
+local isMinimized = false
+local minimizedSize = UDim2.new(0, MainFrame.Size.X.Offset, 0, 30)
+local fullSize = MainFrame.Size
+
+local function ToggleMinimize()
+    if isMinimized then
+        TweenService:Create(MainFrame, TweenInfo.new(0.3), {Size = fullSize}):Play()
+    else
+        TweenService:Create(MainFrame, TweenInfo.new(0.3), {Size = minimizedSize}):Play()
+    end
+    isMinimized = not isMinimized
+end
+
+MinimizeButton.MouseButton1Click:Connect(ToggleMinimize)
+
+-- Cho phép sử dụng phím để thu nhỏ/phóng to
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.M then
+        ToggleMinimize()
+    end
+end)
 
 
 local redzlib = {
